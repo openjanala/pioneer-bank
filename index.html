@@ -31,7 +31,7 @@
             <div class="col-md-4 ">
                 <div class="withdraw status">
                     <h5>Withdraw</h5>
-                    <h2>$00</h2>
+                    <h2>$<span id="currentWithdraw">00</span></h2>
                 </div>
             </div>
             <div class="col-md-4 ">
@@ -55,7 +55,7 @@
             <div class="col-md-6">
                 <div class="sbumit_area">
                     <h4>Withdraw</h4>
-                    <input id="withdrawAmt" type="text" class="form-control" placeholder="$ Amount you want to Withdraw"><br>
+                    <input id="withdrawAmount" type="text" class="form-control" placeholder="$ Amount you want to Withdraw"><br>
                     <button id="addWithdraw" class="btn btn-success">Withdraw</button>
                 </div>
             </div>
@@ -101,9 +101,12 @@ const depositButton =  document.getElementById("addDeposit");
  ///////////////////////Withdraw Button event Handler\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 const withdrawButton = document.getElementById("addWithdraw");
     withdrawButton.addEventListener("click", function(){
-        const withdrawAmount = document.getElementById("withdrawAmt").value;
-        const withdrawNumber = parseFloat(withdrawAmount);
+        const withdrawNumber = getInputNumber("withdrawAmount");
        
+        updateSpanTex("currentWithdraw", withdrawNumber);
+        updateSpanTex("currentBalance", -1 * withdrawNumber);// -1 * for Negative Value
+
+        document.getElementById("withdrawAmount").value = "";//for Clear after Amount Save.
     });
 
 function getInputNumber(id){
@@ -116,10 +119,10 @@ function getInputNumber(id){
 ///////////////////////////////// Function the same things \\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 
-function updateSpanTex(id, depositAmount){
+function updateSpanTex(id, addedNumber){
     const current = document.getElementById(id).innerText; 
     const currentNumber = parseFloat(current);
-    const tolalAmount = depositAmount + currentNumber;
+    const tolalAmount = addedNumber + currentNumber;
     document.getElementById(id).innerText = tolalAmount;
 }
 
